@@ -16,7 +16,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 
 dataset = "mnist"
-act = "relu"
+act = "selu"
 
 # mnistのデータ変換
 (x_train_val, y_train_val), (x_test, y_test) = mnist.load_data()
