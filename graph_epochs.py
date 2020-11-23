@@ -2,10 +2,23 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def conmprison_data():
-    relu = np.loadtxt('relu/mnist_relu_layers.csv')
+def conmprison_epochs():
+    relu = np.loadtxt('relu/mnist_relu.csv')
+    selu = np.loadtxt('selu/mnist_selu.csv')
+    mish = np.loadtxt('mish/mnist_mish.csv')
+    tanexp = np.loadtxt('Tanexp/mnist_tanexp.csv')
+    softplus = np.loadtxt('softplus/mnist_softplus.csv')
+    elu = np.loadtxt('elu/mnist_elu.csv')
+    myopinion = np.loadtxt('myopinion/mnist_myopinion.csv')
 
     data_type = ["train_loss", "train_accuracy", "val_loss", "val_accuracy"]
+    print(relu[3][9])
+    print(selu[3][9])
+    print(mish[3][9])
+    print(tanexp[3][9])
+    print(softplus[3][9])
+    print(elu[3][9])
+    print(myopinion[3][9])
     for i in range(4):
         epochs = range(1, len(relu[0])+1)
         plt.plot(epochs, relu[i], 'b', label='relu')
@@ -23,4 +36,4 @@ def conmprison_data():
         plt.show()
 
 
-conmprison_data()
+conmprison_epochs()
