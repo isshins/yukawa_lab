@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 def conmprison_layers():
     relu = np.loadtxt('relu/layers/mnist_relu_layers.csv')
     selu = np.loadtxt('selu/layers/mnist_selu_layers.csv')
+    swish = np.loadtxt('swish/layers/mnist_Swish_layers.csv')
     mish = np.loadtxt('mish/layers/mnist_mish_layers.csv')
     tanexp = np.loadtxt('Tanexp/layers/mnist_tanexp_layers.csv')
     softplus = np.loadtxt('softplus/layers/mnist_softplus_layers.csv')
@@ -15,6 +16,7 @@ def conmprison_layers():
     layers = range(12, 23)
     print(relu[3][9])
     print(selu[3][9])
+    print(swish[3][9])
     print(mish[3][9])
     print(tanexp[3][9])
     print(softplus[3][9])
@@ -23,6 +25,7 @@ def conmprison_layers():
     for i in range(4):
         plt.plot(layers, relu[i], 'b', label='relu')
         plt.plot(layers, selu[i], 'r', label='selu')
+        plt.plot(layers, swish[i], '#4daf4a', label='swish')
         plt.plot(layers, mish[i], 'g', label='mish')
         plt.plot(layers, tanexp[i], 'y', label='tanexp')
         plt.plot(layers, softplus[i], 'c', label='softplus')
