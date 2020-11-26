@@ -14,6 +14,9 @@ from tensorflow.keras.layers import (
 )
 from tensorflow.keras.models import Model
 from tensorflow.keras.regularizers import l2
+from keras.datasets import cifar10
+from keras.utils import to_categorical
+import numpy as np
 
 ## Import Necessary Modules
 import tensorflow as tf
