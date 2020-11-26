@@ -16,24 +16,24 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 
 dataset = "mnist"
-act = "Myopinion2"
+act = "Myopinion3"
 
 ## Import Necessary Modules
 import tensorflow as tf
 from tensorflow.keras.layers import Activation
 from tensorflow.keras.utils import get_custom_objects
 
-class Myopinion2(Activation):
+class Myopinion3(Activation):
     
     def __init__(self, activation, **kwargs):
-        super(Myopinion2, self).__init__(activation, **kwargs)
-        self.__name__ = 'Myopinion2'
+        super(Myopinion3, self).__init__(activation, **kwargs)
+        self.__name__ = 'Myopinion3'
 
 
-def myopinion2(inputs):
-    return tf.keras.activations.relu(inputs + 0.1) - 0.1
+def myopinion3(inputs):
+    return inputs * tf.math.sigmoid(inputs) - 0.1
 
-get_custom_objects().update({'Myopinion2': Myopinion2(myopinion2)})
+get_custom_objects().update({'Myopinion3': Myopinion3(myopinion3)})
 
 
 # mnistのデータ変換
