@@ -30,10 +30,9 @@ def conmprison_epochs():
 
     for i in range(4):
         epochs = range(1, len(relu[0])+1)
-        plt.plot(epochs, relu[i], 'b', label='relu')
         plt.plot(epochs, swish[i], 'c', label='swish')
-        plt.plot(epochs, myopinion1[i], 'k', label='myopinion1')
-        plt.plot(epochs, myopinion2[i], 'g', label='myopinion2')
+        plt.plot(epochs, myopinion3[i], 'k', label='myopinion1')
+        plt.plot(epochs, myopinion4[i], 'g', label='myopinion2')
 
         plt.xlabel("Number of Epoches")
         plt.ylabel(f"{data_type[i]}")
