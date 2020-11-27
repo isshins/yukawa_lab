@@ -3,14 +3,14 @@ import matplotlib.pyplot as plt
 
 
 def conmprison_epochs_50():
-    relu = np.loadtxt('relu/mnist_relu_50.csv')
-    selu = np.loadtxt('selu/mnist_selu_50.csv')
-    swish = np.loadtxt('swish/mnist_Swish_50.csv')
-    mish = np.loadtxt('mish/mnist_mish_50.csv')
-    tanexp = np.loadtxt('Tanexp/mnist_tanexp_50.csv')
-    softplus = np.loadtxt('softplus/mnist_softplus_50.csv')
-    elu = np.loadtxt('elu/mnist_elu_50.csv')
-    myopinion = np.loadtxt('myopinion/mnist_myopinion_50.csv')
+    relu = np.loadtxt('relu/epochs/mnist_relu_50.csv')
+    selu = np.loadtxt('selu/epochs/mnist_selu_50.csv')
+    swish = np.loadtxt('swish/epochs/mnist_Swish_50.csv')
+    mish = np.loadtxt('mish/epochs/mnist_mish_50.csv')
+    tanexp = np.loadtxt('Tanexp/epochs/mnist_tanexp_50.csv')
+    softplus = np.loadtxt('softplus/epochs/mnist_softplus_50.csv')
+    elu = np.loadtxt('elu/epochs/mnist_elu_50.csv')
+    myopinion = np.loadtxt('myopinion/epochs/mnist_myopinion_50.csv')
 
     data_type = ["train_loss", "train_accuracy", "val_loss", "val_accuracy"]
     data_type_2 = ["loss", "acc"]
