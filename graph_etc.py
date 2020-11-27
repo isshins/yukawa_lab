@@ -12,6 +12,7 @@ def conmprison_epochs():
     elu = np.loadtxt('elu/mnist_elu.csv')
     myopinion = np.loadtxt('myopinion/mnist_myopinion.csv')
     fts = np.loadtxt('fts/Fts_mnist.csv')
+    fts_t = np.loadtxt('fts/Fts_t_mnist.csv')
 
     data_type = ["train_loss", "train_accuracy", "val_loss", "val_accuracy"]
     print(relu[3][9])
@@ -31,6 +32,7 @@ def conmprison_epochs():
         plt.plot(epochs, mish[i], 'g', label='mish')
         plt.plot(epochs, tanexp[i], 'y', label='tanexp')
         plt.plot(epochs, fts[i], '#e41a1c', label='fts')
+        plt.plot(epochs, fts_t[i], '#984ea3', label='fts_t')
         plt.xlabel("Number of Epoches")
         plt.ylabel(f"{data_type[i]}")
         plt.gca().yaxis.set_tick_params(direction='in')
