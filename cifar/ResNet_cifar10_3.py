@@ -319,7 +319,7 @@ if __name__ == "__main__":
     VERBOSE = 1
     steps_per_epoch = x_train.shape[0] // BATCH_SIZE
     momentum = SGD(lr=0.1, decay=1e-4, momentum=0.9, nesterov=True)
-    activations = ['relu', 'Swish']
+    activations = ['elu', 'selu']
     dataset = 'cifar10'
 
     for act in activations:
