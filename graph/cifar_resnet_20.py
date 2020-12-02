@@ -3,16 +3,16 @@ import matplotlib.pyplot as plt
 
 
 def conmprison_cifar():
-    relu = np.loadtxt('cifar/data/cifar10_relu.csv')
-    selu = np.loadtxt('cifar/data/cifar10_selu.csv')
-    swish = np.loadtxt('cifar/data/cifar10_Swish.csv')
-    mish = np.loadtxt('cifar/data/cifar10_Mish.csv')
-    tanexp = np.loadtxt('cifar/data/cifar10_Tanexp.csv')
-    softplus = np.loadtxt('cifar/data/cifar10_softplus.csv')
-    elu = np.loadtxt('cifar/data/cifar10_elu.csv')
-    myopinion = np.loadtxt('cifar/data/cifar10_Myopinion.csv')
+    relu = np.loadtxt('cifar/resnet/cifar10_relu.csv')
+    selu = np.loadtxt('cifar/resnet/cifar10_selu.csv')
+    swish = np.loadtxt('cifar/resnet/cifar10_Swish.csv')
+    mish = np.loadtxt('cifar/resnet/cifar10_Mish.csv')
+    tanexp = np.loadtxt('cifar/resnet/cifar10_Tanexp.csv')
+    softplus = np.loadtxt('cifar/resnet/cifar10_softplus.csv')
+    elu = np.loadtxt('cifar/resnet/cifar10_elu.csv')
+    myopinion = np.loadtxt('cifar/resnet/cifar10_Myopinion.csv')
 
-    data_type = ["train_loss", "train_accuracy", "val_loss", "val_accuracy"]
+    resnet_type = ["train_loss", "train_accuracy", "val_loss", "val_accuracy"]
     print(relu[3][9])
     print(selu[3][9])
     print(swish[3][9])
@@ -33,7 +33,7 @@ def conmprison_cifar():
         plt.plot(epochs, elu[i], 'm', label='elu')
         plt.plot(epochs, myopinion[i], 'k', label='myopinion')
         plt.xlabel("Number of Epoches")
-        plt.ylabel(f"{data_type[i]}")
+        plt.ylabel(f"{resnet_type[i]}")
         plt.gca().yaxis.set_tick_params(direction='in')
         plt.gca().xaxis.set_tick_params(direction='in')
         plt.legend()
