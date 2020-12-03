@@ -16,27 +16,30 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 
 dataset = 'mnist'
-act = 'Fts_l'
+act = 'Fts_m'
 
 ## Import Necessary Modules
 import tensorflow as tf
 from tensorflow.keras.layers import Activation
 from tensorflow.keras.utils import get_custom_objects
 
-class Fts_l(Activation):
+class Fts_m(Activation):
 
     def __init__(self, activation, **kwargs):
-        super(Fts_l, self).__init__(activation, **kwargs)
-        self.__name__ = 'Fts_l'
+        super(Fts_m, self).__init__(activation, **kwargs)
+        self.__name__ = 'Fts_m'
 
 
-def fts_l(inputs):
-    return Swish(tf.keras.activations.relu(inputs,threshold=-1.27846454))
+def fts_m(inputs):
+    return swish(myopininon2(inputs, 1.27846454))
 
-def Swish(inputs):
+def myopininon2(x, alpha=1.0):
+    return tf.keras.activations.relu(x + alpha) - alpha
+
+def swish(inputs):
     return inputs * tf.math.sigmoid(inputs)
 
-get_custom_objects().update({'Fts_l': Fts_l(fts_l)})
+get_custom_objects().update({'Fts_m': Fts_m(fts_m)})
 
 
 # mnistのデータ変換
