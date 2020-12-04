@@ -33,7 +33,7 @@ class My2_best(Activation):
 def my2_best(inputs):
     return tf.keras.activations.relu(inputs + 0.5) - 0.5
 
-get_custom_objects().update({'My2_best': My2_best2(my2_best)})
+get_custom_objects().update({'My2_best': My2_best(my2_best)})
 
 
 # mnistのデータ変換
