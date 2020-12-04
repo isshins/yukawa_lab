@@ -18,6 +18,7 @@ from sklearn.model_selection import train_test_split
 # 名前定義
 dataset = "cifar10"
 activations = ["relu", "Swish", "Mish", "Tanexp", "softplus", "elu", "selu", "Myopinion1", "Myopinion2"]
+activations = ["Fts","Fts_m"]
 
 ## Import Necessary Modules
 import tensorflow as tf
@@ -68,14 +69,34 @@ class Myopinion2(Activation):
         super(Myopinion2, self).__init__(activation, **kwargs)
         self.__name__ = 'Myopinion2'
 
-def myopinion2(inputs):
-    return tf.keras.activations.relu(inputs + 0.1) - 0.1
+def myopinion2(inputs, alpha=0.1):
+    return tf.keras.activations.relu(inputs + alpha) - alpha
 
+class Fts(Activation):
+    def __init__(self, activation, **kwargs):
+        super(Fts, self).__init__(activation, **kwargs)
+        self.__name__ = 'Fts'
+
+def fts(inputs):
+    return inputs * tf.math.sigmoid(tf.keras.activations.relu(inputs))
+
+
+class Fts_m(Activation):
+    def __init__(self, activation, **kwargs):
+        super(Fts_m, self).__init__(activation, **kwargs)
+        self.__name__ = 'Fts_m'
+
+def fts_m(inputs):
+    return swish(myopininon2(inputs, 1.27846454))
+
+                                
 get_custom_objects().update({'Swish': Swish(swish)})
 get_custom_objects().update({'Mish': Mish(mish)})
 get_custom_objects().update({'Tanexp': Tanexp(tanexp)})
 get_custom_objects().update({'Myopinion1': Myopinion1(myopinion1)}) 
 get_custom_objects().update({'Myopinion2': Myopinion2(myopinion2)}) 
+get_custom_objects().update({'Fts': Fts(fts)})
+get_custom_objects().update({'Fts_m': Fts_m(fts_m)})
 
 # mnistのデータ変換
 (x_train_val, y_train_val), (x_test, y_test) = cifar10.load_data()
