@@ -33,7 +33,7 @@ class My2_best(Activation):
 def my2_best(inputs):
     return tf.keras.activations.relu(inputs + 0.5) - 0.5
 
-get_custom_objects().update({'My2_best': My2_best2(my2_best)})
+get_custom_objects().update({'My2_best': My2_best(my2_best)})
 
 
 # mnistのデータ変換
@@ -118,4 +118,4 @@ val_acc = history.history['val_accuracy']
 loss = history.history['loss']
 val_loss = history.history['val_loss']
 
-np.savetxt(f'./{dataset}_{act}_50.csv', [loss, acc, val_loss, val_acc])
+np.savetxt(f'./{dataset}_my2_best_50.csv', [loss, acc, val_loss, val_acc])
