@@ -98,7 +98,7 @@ for i in range(21):
     
     # 学習処理
     batch_size = 128
-    epochs = 10
+    epochs = 20
     verbose = 1
     steps_per_epoch = x_train.shape[0] // batch_size,
     
@@ -119,4 +119,4 @@ for i in range(21):
     loss = history.history['loss']
     val_loss = history.history['val_loss']
     
-    np.savetxt(f'./mnist_myopinion2_{i}.csv', [loss, acc, val_loss, val_acc])
+    np.savetxt(f'./myopinion2/mnist_{i}.csv', [loss, acc, val_loss, val_acc])
