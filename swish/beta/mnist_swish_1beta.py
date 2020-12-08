@@ -114,4 +114,4 @@ for i in range(10):
     val_acc = history.history['val_accuracy']
     loss = history.history['loss']
     val_loss = history.history['val_loss']
-    np.savetxt(f'./{act}_{dataset}.csv', [loss, acc, val_loss, val_acc])
+    np.savetxt(f'./1beta/{act}_{dataset}.csv', [loss, acc, val_loss, val_acc])
