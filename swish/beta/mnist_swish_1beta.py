@@ -17,18 +17,17 @@ from sklearn.model_selection import train_test_split
 
 dataset = 'mnist'
 act = 'Swish'
-
-class Swish(Activation):
-        def __init__(self, activation, **kwargs):
-            super().__init__(activation, **kwargs)
-            self.__name__ = 'Swish'
-    
+   
 ## Import Necessary Modules
 import tensorflow as tf
 from tensorflow.keras.layers import Activation
 from tensorflow.keras.utils import get_custom_objects
 
-
+class Swish(Activation):
+        def __init__(self, activation, **kwargs):
+            super().__init__(activation, **kwargs)
+            self.__name__ = 'Swish'
+ 
 # mnistのデータ変換
 (x_train_val, y_train_val), (x_test, y_test) = mnist.load_data()
 x_train, x_valid, y_train, y_valid = train_test_split(x_train_val, y_train_val, test_size=0.2)

@@ -16,17 +16,17 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 
 dataset = 'mnist'
-act = 'Swish'
-
+act = 'Mish'
+   
 ## Import Necessary Modules
 import tensorflow as tf
 from tensorflow.keras.layers import Activation
 from tensorflow.keras.utils import get_custom_objects
 
-class Swish(Activation):
+class Mish(Activation):
         def __init__(self, activation, **kwargs):
             super().__init__(activation, **kwargs)
-            self.__name__ = 'Swish'
+            self.__name__ = 'Mish'
  
 # mnistのデータ変換
 (x_train_val, y_train_val), (x_test, y_test) = mnist.load_data()
@@ -83,10 +83,10 @@ def model_add_block(model, layers, activation):
 
     return model
 for i in range(10):
-    def swish(inputs, beta=(i+1) * 0.1):
-        return inputs * tf.math.sigmoid(beta * inputs)
+    def mish(inputs, beta=(i+1) * 1):
+        return inputs * tf.math.tanh(tf.math.softplus(inputs * beta))
 
-    get_custom_objects().update({'Swish': Swish(swish)})
+    get_custom_objects().update({'Mish': Mish(mish)})
 
     # モデルのコンパイル
     model = model_sequential(act)
@@ -113,4 +113,4 @@ for i in range(10):
     val_acc = history.history['val_accuracy']
     loss = history.history['loss']
     val_loss = history.history['val_loss']
-    np.savetxt(f'./beta1/{act}_{dataset}.csv', [loss, acc, val_loss, val_acc])
+    np.savetxt(f'./1beta/{act}_{dataset}.csv', [loss, acc, val_loss, val_acc])
