@@ -342,4 +342,4 @@ if __name__ == "__main__":
         loss = history.history['loss']
         val_loss = history.history['val_loss']
     
-        np.savetxt(f'./resnet/{dataset}_{act}10.csv', [loss, acc, val_loss, val_acc])
+        np.savetxt(f'./resnet/{dataset}_{act}10_2.csv', [loss, acc, val_loss, val_acc])

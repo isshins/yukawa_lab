@@ -33,7 +33,7 @@ class Swish(Activation):
         super(Swish, self).__init__(activation, **kwargs)
         self.__name__ = 'Swish'
 
-def swish(inputs, alpha = 0.1):
+def swish(inputs, alpha = 3.0):
     return inputs * tf.math.sigmoid(inputs + alpha)
 
 
@@ -342,4 +342,4 @@ if __name__ == "__main__":
         loss = history.history['loss']
         val_loss = history.history['val_loss']
     
-        np.savetxt(f'./resnet/{dataset}_{act}01.csv', [loss, acc, val_loss, val_acc])
+        np.savetxt(f'./resnet/{dataset}_{act}30.csv', [loss, acc, val_loss, val_acc])
