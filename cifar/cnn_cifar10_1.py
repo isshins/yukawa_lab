@@ -18,7 +18,7 @@ from sklearn.model_selection import train_test_split
 # 名前定義
 dataset = "cifar10"
 activations = ["relu", "Swish", "Mish", "Tanexp", "softplus", "elu", "selu", "Myopinion1", "Myopinion2"]
-activations = ["Swish"]
+activations = ["Tanexp"]
 
 ## Import Necessary Modules
 import tensorflow as tf
@@ -51,8 +51,8 @@ class Tanexp(Activation):
         super(Tanexp, self).__init__(activation, **kwargs)
         self.__name__ = 'Tanexp'
 
-def tanexp(inputs):
-    return inputs * tf.math.tanh(tf.math.exp(inputs))
+def tanexp(inputs, alpha = 0.5, beta = 1.2):
+    return inputs * tf.math.tanh(tf.math.exp(inputs * beta + alpha))
 
 class Myopinion1(Activation):
 
@@ -181,4 +181,4 @@ for act in activations:
     loss = history.history['loss']
     val_loss = history.history['val_loss']
     
-    np.savetxt(f'./cnn/{dataset}_{act}_05.csv', [loss, acc, val_loss, val_acc])
+    np.savetxt(f'./cnn/{dataset}_{act}_0512.csv', [loss, acc, val_loss, val_acc])
