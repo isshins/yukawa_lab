@@ -83,7 +83,7 @@ def model_add_block(model, layers, activation):
 
     return model
 
-def swish(inputs, alpha=5.0, beta=5.0):
+def swish(inputs, alpha=0.7, beta=1.3):
     return inputs * tf.math.sigmoid(beta * inputs + alpha)
 
 get_custom_objects().update({'Swish': Swish(swish)})
@@ -113,4 +113,4 @@ acc = history.history['accuracy']
 val_acc = history.history['val_accuracy']
 loss = history.history['loss']
 val_loss = history.history['val_loss']
-np.savetxt(f'./{act}_{dataset}_5050.csv', [loss, acc, val_loss, val_acc])
+np.savetxt(f'./{act}_{dataset}_0713.csv', [loss, acc, val_loss, val_acc])
