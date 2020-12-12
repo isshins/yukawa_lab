@@ -17,8 +17,7 @@ from sklearn.model_selection import train_test_split
 
 # 名前定義
 dataset = "cifar10"
-activations = ["relu", "Swish", "Mish", "Tanexp", "softplus", "elu", "selu", "Myopinion1", "Myopinion2"]
-activations = ["Tanexp"]
+activations = ["relu", "Swish", "Mish", "Tanexp", "softplus", "elu", "Tanexp0411"]
 
 ## Import Necessary Modules
 import tensorflow as tf
@@ -32,7 +31,7 @@ class Swish(Activation):
         super(Swish, self).__init__(activation, **kwargs)
         self.__name__ = 'Swish'
 
-def swish(inputs, alpha=0.5):
+def swish(inputs, alpha=0):
     return inputs * tf.math.sigmoid(inputs+alpha)
 
 
@@ -51,8 +50,8 @@ class Tanexp(Activation):
         super(Tanexp, self).__init__(activation, **kwargs)
         self.__name__ = 'Tanexp'
 
-def tanexp(inputs, alpha = 0.5, beta = 1.2):
-    return inputs * tf.math.tanh(tf.math.exp(inputs * beta + alpha))
+def tanexp(inputs):
+    return inputs * tf.math.tanh(tf.math.exp(inputs))
 
 class Myopinion1(Activation):
 
@@ -89,7 +88,16 @@ class Fts_m(Activation):
 def fts_m(inputs):
     return swish(myopininon2(inputs, 1.27846454))
 
-                                
+class Tanexp0411(Activation):
+
+    def __init__(self, activation, **kwargs):
+        super().__init__(activation, **kwargs)
+        self.__name__ = 'Tanexp0411'
+
+def tanexp0411(inputs, alpha = 0.4, beta = 1.1):
+    return inputs * tf.math.tanh(tf.math.exp(inputs * beta + alpha))
+
+                               
 get_custom_objects().update({'Swish': Swish(swish)})
 get_custom_objects().update({'Mish': Mish(mish)})
 get_custom_objects().update({'Tanexp': Tanexp(tanexp)})
@@ -97,6 +105,7 @@ get_custom_objects().update({'Myopinion1': Myopinion1(myopinion1)})
 get_custom_objects().update({'Myopinion2': Myopinion2(myopinion2)}) 
 get_custom_objects().update({'Fts': Fts(fts)})
 get_custom_objects().update({'Fts_m': Fts_m(fts_m)})
+get_custom_objects().update({'Tanexp0411': Tanexp0411(tanexp0411)})
 
 # mnistのデータ変換
 (x_train_val, y_train_val), (x_test, y_test) = cifar10.load_data()
@@ -155,7 +164,7 @@ def model_add_block(model, layers, activation):
 
 # 学習処理
 batch_size = 128
-epochs = 50
+epochs = 100
 verbose = 1
 steps_per_epoch = x_train.shape[0] // batch_size
 
@@ -181,4 +190,4 @@ for act in activations:
     loss = history.history['loss']
     val_loss = history.history['val_loss']
     
-    np.savetxt(f'./cnn/{dataset}_{act}_0512.csv', [loss, acc, val_loss, val_acc])
+    np.savetxt(f'./cnn/{dataset}_{act}_100.csv', [loss, acc, val_loss, val_acc])
