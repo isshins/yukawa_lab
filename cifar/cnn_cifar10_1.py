@@ -164,7 +164,7 @@ def model_add_block(model, layers, activation):
 
 # 学習処理
 batch_size = 128
-epochs = 100
+epochs = 200
 verbose = 1
 steps_per_epoch = x_train.shape[0] // batch_size
 
@@ -190,4 +190,4 @@ for act in activations:
     loss = history.history['loss']
     val_loss = history.history['val_loss']
     
-    np.savetxt(f'./cnn/{dataset}_{act}_100.csv', [loss, acc, val_loss, val_acc])
+    np.savetxt(f'./cnn/{dataset}_{act}_200.csv', [loss, acc, val_loss, val_acc])
