@@ -319,7 +319,7 @@ if __name__ == "__main__":
     VERBOSE = 1
     steps_per_epoch = x_train.shape[0] // BATCH_SIZE
     momentum = SGD(lr=0.1, decay=1e-4, momentum=0.9, nesterov=True)
-    activations = ['Tanexp']
+    activations = ['sigmoid']
     dataset = 'cifar10'
 
     for act in activations:
@@ -342,4 +342,4 @@ if __name__ == "__main__":
         loss = history.history['loss']
         val_loss = history.history['val_loss']
     
-        np.savetxt(f'./resnet/{dataset}_{act}_0411.csv', [loss, acc, val_loss, val_acc])
+        np.savetxt(f'./resnet/{dataset}_{act}.csv', [loss, acc, val_loss, val_acc])
