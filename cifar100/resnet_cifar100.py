@@ -27,33 +27,33 @@ import tensorflow as tf
 from tensorflow.keras.layers import Activation
 from tensorflow.keras.utils import get_custom_objects
 
-class Fts(Activation):
-
+class Swish(Activation):
     def __init__(self, activation, **kwargs):
-        super(Fts, self).__init__(activation, **kwargs)
-        self.__name__ = 'Fts'
-
-def fts(inputs):
-    return inputs * tf.math.sigmoid(tf.keras.activations.relu(inputs))
-
-class Fts_m(Activation):
-
-    def __init__(self, activation, **kwargs):
-        super(Fts_m, self).__init__(activation, **kwargs)
-        self.__name__ = 'Fts_m'
-
-
-def fts_m(inputs):
-    return swish(myopininon2(inputs, 1.27846454))
-
-def myopininon2(x, alpha=1.0):
-    return tf.keras.activations.relu(x + alpha) - alpha
+        super().__init__(activation, **kwargs)
+        self.__name__ = 'Swish'
 
 def swish(inputs):
     return inputs * tf.math.sigmoid(inputs)
 
-get_custom_objects().update({'Fts_m': Fts_m(fts_m)})
-get_custom_objects().update({'Fts': Fts(fts)})
+class Tanexp(Activation):
+    def __init__(self, activation, **kwargs):
+        super().__init__(activation, **kwargs)
+        self.__name__ = 'Tanexp'
+
+def tanexp(inputs):
+    return inputs * tf.math.tanh(tf.math.exp(inputs))
+
+class Tanexp0411(Activation):
+    def __init__(self, activation, **kwargs):
+        super().__init__(activation, **kwargs)
+        self.__name__ = 'Tanexp0411'
+
+def tanexp0411(inputs, alpha=1.1, beta=0.4):
+    return inputs * tf.math.tanh(tf.math.exp(inputs * beta + alpha))
+
+get_custom_objects().update({'Swish': Swish(swish)})
+get_custom_objects().update({'Tanexp': Tanexp(tanexp)})
+get_custom_objects().update({'Tanexp0411': Tanexp0411(tanexp0411)})
 
 def compose(*funcs):
     """複数の層を結合する。
@@ -305,7 +305,7 @@ if __name__ == "__main__":
     VERBOSE = 1
     steps_per_epoch = x_train.shape[0] // BATCH_SIZE
     momentum = SGD(lr=0.1, decay=1e-4, momentum=0.9, nesterov=True)
-    activations = ['relu', 'sigmoid']
+    activations = ['Swish', 'Tanexp', 'Tanexp0411']
     dataset = 'cifar100'
 
     for act in activations:
