@@ -83,9 +83,9 @@ def model_add_block(model, layers, activation):
 
     return model
 
-for i in range(0, 5):
-    for j in range(10, 20):
-        def tanexp(inputs, alpha=0.1 * i, beta=0.1 * j):
+for i in range(36, 45):
+    for j in range(106, 115):
+        def tanexp(inputs, alpha=0.1 * i, beta=0.01 * j):
             return inputs * tf.math.tanh(tf.math.exp(inputs * beta + alpha))
     
         get_custom_objects().update({'Tanexp': Tanexp(tanexp)})
