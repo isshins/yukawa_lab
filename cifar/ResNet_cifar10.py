@@ -26,24 +26,14 @@ import tensorflow as tf
 from tensorflow.keras.layers import Activation
 from tensorflow.keras.utils import get_custom_objects
 
-class Fts(Activation):
+class Mish(Activation):
 
     def __init__(self, activation, **kwargs):
-        super(Fts, self).__init__(activation, **kwargs)
-        self.__name__ = 'Fts'
+        super().__init__(activation, **kwargs)
+        self.__name__ = 'Mish'
 
-def fts(inputs):
-    return inputs * tf.math.sigmoid(tf.keras.activations.relu(inputs))
-
-class Fts_m(Activation):
-
-    def __init__(self, activation, **kwargs):
-        super(Fts_m, self).__init__(activation, **kwargs)
-        self.__name__ = 'Fts_m'
-
-
-def fts_m(inputs):
-    return swish(myopininon2(inputs, 1.27846454))
+def mish(inputs):
+    return inputs * tf.math.tanh(tf.math.softplus(inputs))
 
 def myopininon2(x, alpha=1.0):
     return tf.keras.activations.relu(x + alpha) - alpha
@@ -51,8 +41,8 @@ def myopininon2(x, alpha=1.0):
 def swish(inputs):
     return inputs * tf.math.sigmoid(inputs)
 
-get_custom_objects().update({'Fts_m': Fts_m(fts_m)})
-get_custom_objects().update({'Fts': Fts(fts)})
+get_custom_objects().update({'Mish': Mish(mish)})
+
 
 def compose(*funcs):
     """複数の層を結合する。
@@ -304,7 +294,7 @@ if __name__ == "__main__":
     VERBOSE = 1
     steps_per_epoch = x_train.shape[0] // BATCH_SIZE
     momentum = SGD(lr=0.1, decay=1e-4, momentum=0.9, nesterov=True)
-    activations = ['sigmoid']
+    activations = ['Mish']
     dataset = 'cifar10'
 
     for act in activations:
@@ -327,4 +317,4 @@ if __name__ == "__main__":
         loss = history.history['loss']
         val_loss = history.history['val_loss']
     
-        np.savetxt(f'./resnet/{dataset}_{act}_50.csv', [loss, acc, val_loss, val_acc])
+        np.savetxt(f'./resnet/{dataset}_{act}_50_2.csv', [loss, acc, val_loss, val_acc])
