@@ -21,16 +21,16 @@ import tensorflow as tf
 from tensorflow.keras.layers import Activation
 from tensorflow.keras.utils import get_custom_objects
 
-class Tanexp0411(Activation):
+class Tanexp(Activation):
     def __init__(self, activation, **kwargs):
         super().__init__(activation, **kwargs)
-        self.__name__ = 'Tanexp0411'
+        self.__name__ = 'Tanexp'
 
 
-def tanexp0411(inputs, alpha = 0.4, beta = 1.1):
+def tanexp(inputs, alpha = 0.6, beta = 1.3):
     return inputs * tf.math.tanh(tf.math.exp(inputs * beta + alpha))
 
-get_custom_objects().update({'Tanexp0411': Tanexp0411(tanexp0411)})
+get_custom_objects().update({'Tanexp': Tanexp(tanexp)})
 
 
 # mnistのデータ変換
@@ -88,9 +88,9 @@ def model_add_block(model, layers, activation):
 
     return model
 
-for i in range(1,11):
+for i in range(1, 11):
     # モデルのコンパイル
-    model = model_sequential("Tanexp0411")
+    model = model_sequential("Tanexp")
     model.summary()
     model.compile(optimizer='sgd', loss='categorical_crossentropy',
                   metrics=['accuracy'])
@@ -128,4 +128,4 @@ for i in range(1,11):
     plt.legend()
     plt.show()
     
-    np.savetxt(f'./mnist_tanexp0411_{i}.csv', [loss, acc, val_loss, val_acc])
+    np.savetxt(f'./mnist_tanexp0613_{i}.csv', [loss, acc, val_loss, val_acc])
