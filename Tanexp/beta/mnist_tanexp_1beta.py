@@ -83,7 +83,7 @@ def model_add_block(model, layers, activation):
 
     return model
 for i in range(10):
-    def tanexp(inputs, beta=(i+1) * 1):
+    def tanexp(inputs, beta=(i * 0.1) + 1):
         return inputs * tf.math.tanh(tf.math.exp(inputs * beta))
 
     get_custom_objects().update({'Tanexp': Tanexp(tanexp)})
@@ -113,4 +113,4 @@ for i in range(10):
     val_acc = history.history['val_accuracy']
     loss = history.history['loss']
     val_loss = history.history['val_loss']
-    np.savetxt(f'./1beta/{act}_{dataset}.csv', [loss, acc, val_loss, val_acc])
+    np.savetxt(f'./beta/{act}_{dataset}_{i + 10}.csv', [loss, acc, val_loss, val_acc])
