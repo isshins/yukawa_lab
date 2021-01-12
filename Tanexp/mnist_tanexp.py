@@ -101,108 +101,31 @@ def model_add_block(model, layers, activation):
 
     return model
 
-
-# モデルのコンパイル
-model = model_sequential("Tanexp")
-model.summary()
-model.compile(optimizer='sgd', loss='categorical_crossentropy',
-              metrics=['accuracy'])
-
-# 学習処理
-batch_size = 128
-epochs = 10
-verbose = 1
-steps_per_epoch = x_train.shape[0] // batch_size,
-
-# 何回試行するか設定している
-history = model.fit(x_train, y_train,
-                    batch_size=batch_size,
-                    epochs=epochs,
-                    verbose=verbose,
-                    steps_per_epoch=steps_per_epoch[0],
-                    validation_data=(x_valid, y_valid))
-
-# 学習済みモデルを保存
-model.save('mnist_tanexp.h5')
-
-# 学習経過をグラフで表示
-acc = history.history['accuracy']
-val_acc = history.history['val_accuracy']
-
-epochs = range(1, len(acc)+1)
-plt.plot(epochs, acc, 'b', label='Training accuracy')
-plt.plot(epochs, val_acc, 'r', label='Val accuracy')
-plt.legend()
-plt.show()
-
-loss = history.history['loss']
-val_loss = history.history['val_loss']
-
-epochs = range(1, len(loss)+1)
-plt.plot(epochs, loss, 'b', label='Training loss')
-plt.plot(epochs, val_loss, 'r', label='Val loss')
-plt.legend()
-plt.show()
-
-np.savetxt('./mnist_tanexp.csv', [loss, acc, val_loss, val_acc])
-
-# 評価
-#def key_sort_by_num(x):
-#    re_list = re.findall(r"[0-9]+", x)
-#    re_list = list(map(int, re_list))
-#    return re_list
-#
-#
-#def list_from_dir(dir, target_ext=None):
-#    data_list = []
-#    fnames = os.listdir(dir)
-#    fnames = sorted(fnames, key=key_sort_by_num)
-#    for fname in fnames:
-#        if target_ext is None:
-#            path = os.path.join(dir, fname)
-#            data_list.append(path)
-#        else:
-#            _, ext = os.path.splitext(fname)
-#            if ext.lower() in target_ext:
-#                path = os.path.join(dir, fname)
-#                data_list.append(path)
-#    return data_list
-#
-#
-#def latest_weight(log_dir):
-#    weight_paths = list_from_dir(log_dir, '.hdf5')
-#    return weight_paths[-1]
-#
-#
-#model = model_sequential()
-#
-#ckpt = latest_weight(log_dir)
-#model.load_weights(ckpt)
-#
-#model.compile(optimizer='sgd', loss='categorical_crossentropy',
-#              metrics=['accuracy'])
-#
-#score = model.evaluate(x_test,  y_test)
-#print(list(zip(model.metrics_names, score)))
-## [('loss', 0.03808286426122068), ('acc', 0.9879)]
-#
-#plt.figure(figsize=(10, 10))
-#
-#for i in range(10):
-#    data = [(x, t) for x, t in zip(_x_test, _y_test) if t == i]
-#    x, y = data[0]
-#
-#    pred = model.predict(preprocess(x, label=False))
-#
-#    ans = np.argmax(pred)
-#    score = np.max(pred) * 100
-#
-#    plt.subplot(5, 2, i+1)
-#    plt.axis("off")
-#    plt.title("ans={} score={}\n{}".format(ans, score, ans == y))
-#
-#    plt.imshow(x, cmap='gray')
-#
-#
-#plt.tight_layout()
-#plt.show()
+for i in range(1, 11):
+    # モデルのコンパイル
+    model = model_sequential("Tanexp")
+    model.summary()
+    model.compile(optimizer='sgd', loss='categorical_crossentropy',
+                  metrics=['accuracy'])
+    
+    # 学習処理
+    batch_size = 128
+    epochs = 10
+    verbose = 1
+    steps_per_epoch = x_train.shape[0] // batch_size,
+    
+    # 何回試行するか設定している
+    history = model.fit(x_train, y_train,
+                        batch_size=batch_size,
+                        epochs=epochs,
+                        verbose=verbose,
+                        steps_per_epoch=steps_per_epoch[0],
+                        validation_data=(x_valid, y_valid))
+    
+    # 学習経過をグラフで表示
+    acc = history.history['accuracy']
+    val_acc = history.history['val_accuracy']
+    loss = history.history['loss']
+    val_loss = history.history['val_loss']
+    
+    np.savetxt(f'./mnist/mnist_tanexp_{i}.csv', [loss, acc, val_loss, val_acc])
