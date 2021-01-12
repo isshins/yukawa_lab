@@ -88,7 +88,7 @@ def model_add_block(model, layers, activation):
 
     return model
 
-for i in [3,11]:
+for i in range(4,11):
     # モデルのコンパイル
     model = model_sequential("Tanexp")
     model.summary()
