@@ -46,13 +46,13 @@ def mish(inputs):
     return inputs * tf.math.tanh(tf.math.softplus(inputs))
 
 
-class Tanexp0613(Activation):
+class Tanexp0611(Activation):
 
     def __init__(self, activation, **kwargs):
         super().__init__(activation, **kwargs)
-        self.__name__ = 'Tanexp0613'
+        self.__name__ = 'Tanexp0611'
 
-def tanexp0613(inputs, alpha=0.6, beta=1.3):
+def tanexp0611(inputs, alpha=0.6, beta=1.1):
     return inputs * tf.math.tanh(tf.math.exp(inputs * beta + alpha))
 
 class Myopinion(Activation):
@@ -66,7 +66,7 @@ def myopinion(inputs):
 
 get_custom_objects().update({'Swish': Swish(swish)})
 get_custom_objects().update({'Mish': Mish(mish)})
-get_custom_objects().update({'Tanexp0613': Tanexp0613(tanexp0613)})
+get_custom_objects().update({'Tanexp0611': Tanexp0611(tanexp0611)})
 get_custom_objects().update({'Myopinion': Myopinion(myopinion)})
 
 def compose(*funcs):
@@ -319,7 +319,7 @@ if __name__ == "__main__":
     VERBOSE = 1
     steps_per_epoch = x_train.shape[0] // BATCH_SIZE
     momentum = SGD(lr=0.1, decay=1e-4, momentum=0.9, nesterov=True)
-    activations = ['Tanexp0613']
+    activations = ['Tanexp0611']
     dataset = 'cifar10'
 
     for act in activations:
