@@ -82,35 +82,35 @@ def model_add_block(model, layers, activation):
         model.add(Dropout(0.25))
 
     return model
-
-for i in range(0, 30):
-    def tanexp(inputs, alpha=0.1 * i, beta=1.1):
-        return inputs * tf.math.tanh(tf.math.exp(inputs * beta + alpha))
-    
-    get_custom_objects().update({'Tanexp': Tanexp(tanexp)})
-    # モデルのコンパイル
-    model = model_sequential(act)
-    model.summary()
-    model.compile(optimizer='sgd', loss='categorical_crossentropy',
-                  metrics=['accuracy'])
-    
-    # 学習処理
-    batch_size = 128
-    epochs = 10
-    verbose = 1
-    steps_per_epoch = x_train.shape[0] // batch_size,
-    
-    # 何回試行するか設定している
-    history = model.fit(x_train, y_train, 
-                        batch_size=batch_size,
-                        epochs=epochs,
-                        verbose=verbose,
-                        steps_per_epoch=steps_per_epoch[0],
-                        validation_data=(x_valid, y_valid))
-    
-    # 学習経過をグラフで表示
-    acc = history.history['accuracy']
-    val_acc = history.history['val_accuracy']
-    loss = history.history['loss']
-    val_loss = history.history['val_loss']
-    np.savetxt(f'./alpha11/{dataset}_{i}11_1.csv', [loss, acc, val_loss, val_acc])
+for j in range(8, 11):
+    for i in range(0, 30):
+        def tanexp(inputs, alpha=0.1 * i, beta=1.1):
+            return inputs * tf.math.tanh(tf.math.exp(inputs * beta + alpha))
+        
+        get_custom_objects().update({'Tanexp': Tanexp(tanexp)})
+        # モデルのコンパイル
+        model = model_sequential(act)
+        model.summary()
+        model.compile(optimizer='sgd', loss='categorical_crossentropy',
+                      metrics=['accuracy'])
+        
+        # 学習処理
+        batch_size = 128
+        epochs = 10
+        verbose = 1
+        steps_per_epoch = x_train.shape[0] // batch_size,
+        
+        # 何回試行するか設定している
+        history = model.fit(x_train, y_train, 
+                            batch_size=batch_size,
+                            epochs=epochs,
+                            verbose=verbose,
+                            steps_per_epoch=steps_per_epoch[0],
+                            validation_data=(x_valid, y_valid))
+        
+        # 学習経過をグラフで表示
+        acc = history.history['accuracy']
+        val_acc = history.history['val_accuracy']
+        loss = history.history['loss']
+        val_loss = history.history['val_loss']
+        np.savetxt(f'./alpha11/{dataset}_{i}11_{j}.csv', [loss, acc, val_loss, val_acc])
