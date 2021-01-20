@@ -45,6 +45,14 @@ class Mish(Activation):
 def mish(inputs):
     return inputs * tf.math.tanh(tf.math.softplus(inputs))
 
+class Tanexp(Activation):
+
+    def __init__(self, activation, **kwargs):
+        super().__init__(activation, **kwargs)
+        self.__name__ = 'Tanexp'
+
+def tanexp(inputs):
+    return inputs * tf.math.tanh(tf.math.exp(inputs))
 
 class Tanexp1011(Activation):
 
@@ -66,6 +74,7 @@ def myopinion(inputs):
 
 get_custom_objects().update({'Swish': Swish(swish)})
 get_custom_objects().update({'Mish': Mish(mish)})
+get_custom_objects().update({'Tanexp': Tanexp(tanexp)})
 get_custom_objects().update({'Tanexp1011': Tanexp1011(tanexp1011)})
 get_custom_objects().update({'Myopinion': Myopinion(myopinion)})
 
@@ -319,7 +328,7 @@ if __name__ == "__main__":
     VERBOSE = 1
     steps_per_epoch = x_train.shape[0] // BATCH_SIZE
     momentum = SGD(lr=0.1, decay=1e-4, momentum=0.9, nesterov=True)
-    activations = ['Tanexp1011']
+    activations = ['Tanexp']
     dataset = 'cifar10'
 
     for act in activations:
@@ -336,10 +345,11 @@ if __name__ == "__main__":
                             steps_per_epoch=steps_per_epoch,
                             validation_data=(x_valid, y_valid))
         
+        ResNetModel.save(f'./resnet/{dataset}_{act}.h5')
 
         acc = history.history['accuracy']
         val_acc = history.history['val_accuracy']
         loss = history.history['loss']
         val_loss = history.history['val_loss']
     
-        np.savetxt(f'./resnet/{dataset}_{act}.csv', [loss, acc, val_loss, val_acc])
+        np.savetxt(f'./resnet/{dataset}_{act}_2.csv', [loss, acc, val_loss, val_acc])
