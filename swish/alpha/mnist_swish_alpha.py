@@ -83,8 +83,8 @@ def model_add_block(model, layers, activation):
 
     return model
 #for i in range(11):
-def swish(inputs, alpha = 0.6):
-    return inputs * tf.math.sigmoid(alpha + inputs)
+def swish(inputs, alpha = 0.6, beta = 1.1):
+    return inputs * tf.math.sigmoid(alpha + inputs * beta)
 
 get_custom_objects().update({'Swish': Swish(swish)})
 
@@ -108,7 +108,7 @@ history = model.fit(x_train, y_train,
                     steps_per_epoch=steps_per_epoch[0],
                     validation_data=(x_valid, y_valid))
 
-model.save('./mnist_swish06_2.h5')
+model.save('./mnist_swish0611.h5')
 
 # 学習経過をグラフで表示
 acc = history.history['accuracy']
@@ -116,4 +116,4 @@ val_acc = history.history['val_accuracy']
 loss = history.history['loss']
 val_loss = history.history['val_loss']
 #np.savetxt(f'./{act}_{dataset}_{i}.csv', [loss, acc, val_loss, val_acc])
-np.savetxt('./mnist_swish06_2.csv', [loss, acc, val_loss, val_acc])
+np.savetxt('./mnist_swish0611.csv', [loss, acc, val_loss, val_acc])
