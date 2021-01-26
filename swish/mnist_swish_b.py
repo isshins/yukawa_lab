@@ -24,10 +24,30 @@ from tensorflow.keras.layers import Activation
 from tensorflow.keras.utils import get_custom_objects
 
 class Swish(Activation):
-        def __init__(self, activation, **kwargs):
-            super().__init__(activation, **kwargs)
-            self.__name__ = 'Swish'
- 
+    '''
+    Mish Activation Function.
+    .. math::
+        mish(x) = x * tanh(softplus(x)) = x * tanh(ln(1 + e^{x}))
+    Shape:
+        - Input: Arbitrary. Use the keyword argument `input_shape`
+        (tuple of integers, does not include the samples axis)
+        when using this layer as the first layer in a model.
+        - Output: Same shape as the input.
+    Examples:
+        >>> X = Activation('Mish', name="conv1_act")(X_input)
+    '''
+
+    def __init__(self, activation, **kwargs):
+        super(Swish, self).__init__(activation, **kwargs)
+        self.__name__ = 'Swish'
+
+
+def swish(inputs):
+    return inputs * tf.math.sigmoid(inputs)
+
+get_custom_objects().update({'Swish': Swish(swish)})
+
+
 # mnistのデータ変換
 (x_train_val, y_train_val), (x_test, y_test) = mnist.load_data()
 x_train, x_valid, y_train, y_valid = train_test_split(x_train_val, y_train_val, test_size=0.2)
@@ -82,12 +102,7 @@ def model_add_block(model, layers, activation):
         model.add(Dropout(0.25))
 
     return model
-#for i in range(11):
- #   for j in range(0,31):
-def swish(inputs, alpha = 1.0):
-    return inputs * tf.math.sigmoid(alpha + inputs)
 
-get_custom_objects().update({'Swish': Swish(swish)})
 
 # モデルのコンパイル
 model = model_sequential(act)
@@ -109,12 +124,13 @@ history = model.fit(x_train, y_train,
                     steps_per_epoch=steps_per_epoch[0],
                     validation_data=(x_valid, y_valid))
 
-model.save('./swish10_b.h5')
+# 学習済みモデルを保存
+model.save(f'{dataset}_{act}_b.h5')
 
 # 学習経過をグラフで表示
 acc = history.history['accuracy']
 val_acc = history.history['val_accuracy']
 loss = history.history['loss']
 val_loss = history.history['val_loss']
-np.savetxt(f'./swish10_b.csv', [loss, acc, val_loss, val_acc])
-#np.savetxt(f'./alpha/{act}_{dataset}_{j}_{i}.csv', [loss, acc, val_loss, val_acc])
+
+np.savetxt(f'./{act}_b_{dataset}.csv', [loss, acc, val_loss, val_acc])
