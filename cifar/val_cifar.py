@@ -19,6 +19,7 @@ from keras.utils import to_categorical
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
+from sklearn.model_selection import KFold
 from keras.optimizers import SGD
 
 ## Import Necessary Modules
@@ -42,7 +43,7 @@ class Swish10(Activation):
         super().__init__(activation, **kwargs)
         self.__name__ = 'Swish10'
 
-def swish10(inputs, alpha = 1.0):
+def swish10(inputs, alpha = 0.0):
     return inputs * tf.math.sigmoid(inputs + alpha)
 
 class Tanexp(Activation):
@@ -55,8 +56,8 @@ def tanexp(inputs):
     return inputs * tf.math.tanh(tf.math.exp(inputs))
 
 get_custom_objects().update({'Swish': Swish(swish)})
-get_custom_objects().update({'Tanexp': Tanexp(tanexp)})
 get_custom_objects().update({'Swish10': Swish10(swish10)})
+get_custom_objects().update({'Tanexp': Tanexp(tanexp)})
 
 def compose(*funcs):
     """複数の層を結合する。
@@ -286,7 +287,6 @@ class ResnetBuilder:
 
 
 if __name__ == "__main__":
-
     # mnistのデータ変換
     (x_train_val, y_train_val), (x_test, y_test) = cifar10.load_data()
     x_train, x_valid, y_train, y_valid = train_test_split(x_train_val,
@@ -304,32 +304,19 @@ if __name__ == "__main__":
     INPUT_SHAPE = (32, 32, 3)
     NB_CLASSES = 10
     NB_EPOCH = 50
-    BATCH_SIZE = 512
+    BATCH_SIZE = 256
     VERBOSE = 1
     steps_per_epoch = x_train.shape[0] // BATCH_SIZE
     momentum = SGD(lr=0.1, decay=1e-4, momentum=0.9, nesterov=True)
-    activations = ['Swish10']
+    act = 'Swish10'
     dataset = 'cifar10'
-
-    for act in activations:
-        print(f"Current Activation funtction:{act}")
-        ResNetModel = ResnetBuilder.build_resnet_34(INPUT_SHAPE, NB_CLASSES, act)
-        ResNetModel.compile(optimizer=momentum,
-                            loss='categorical_crossentropy',
-                            metrics=['accuracy'])
-    
-        history = ResNetModel.fit(x_train, y_train,
-                            batch_size=BATCH_SIZE,
-                            epochs=NB_EPOCH,
-                            verbose=VERBOSE,
-                            steps_per_epoch=steps_per_epoch,
-                            validation_data=(x_valid, y_valid))
         
-        ResNetModel.save(f'./resnet/{dataset}_{act}.h5')
-
-        acc = history.history['accuracy']
-        val_acc = history.history['val_accuracy']
-        loss = history.history['loss']
-        val_loss = history.history['val_loss']
-    
-        np.savetxt(f'./resnet/{dataset}_{act}_3.csv', [loss, acc, val_loss, val_acc])
+    ResNetModel = ResnetBuilder.build_resnet_34(INPUT_SHAPE, NB_CLASSES, act)
+    ResNetModel.load_weights(f'./resnet/{dataset}_{act}.h5')
+    ResNetModel.compile(optimizer=momentum,
+                        loss='categorical_crossentropy',
+                        metrics=['accuracy'])
+    score = ResNetModel.evaluate(x_test, y_test)
+    print(ResNetModel.metrics_names[1], score[1])
+    #scores.append(score[1])
+    #np.savetxt(f'./resnet/{dataset}_{act}_val.csv', scores)
