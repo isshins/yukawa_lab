@@ -304,7 +304,7 @@ if __name__ == "__main__":
     INPUT_SHAPE = (32, 32, 3)
     NB_CLASSES = 10
     NB_EPOCH = 50
-    BATCH_SIZE = 512
+    BATCH_SIZE = 256
     VERBOSE = 1
     steps_per_epoch = x_train.shape[0] // BATCH_SIZE
     momentum = SGD(lr=0.1, decay=1e-4, momentum=0.9, nesterov=True)
@@ -325,11 +325,11 @@ if __name__ == "__main__":
                             steps_per_epoch=steps_per_epoch,
                             validation_data=(x_valid, y_valid))
         
-        ResNetModel.save(f'./resnet/{dataset}_{act}.h5')
+        ResNetModel.save(f'./resnet/{dataset}_{act}_2.h5')
 
         acc = history.history['accuracy']
         val_acc = history.history['val_accuracy']
         loss = history.history['loss']
         val_loss = history.history['val_loss']
     
-        np.savetxt(f'./resnet/{dataset}_{act}_3.csv', [loss, acc, val_loss, val_acc])
+        np.savetxt(f'./resnet/{dataset}_{act}_4.csv', [loss, acc, val_loss, val_acc])
