@@ -312,7 +312,7 @@ if __name__ == "__main__":
     dataset = 'cifar10'
         
     ResNetModel = ResnetBuilder.build_resnet_34(INPUT_SHAPE, NB_CLASSES, act)
-    ResNetModel.load_weights(f'./resnet/{dataset}_{act}.h5')
+    ResNetModel.load_weights(f'./resnet/{dataset}_{act}_2.h5')
     ResNetModel.compile(optimizer=momentum,
                         loss='categorical_crossentropy',
                         metrics=['accuracy'])

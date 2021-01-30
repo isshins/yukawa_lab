@@ -36,13 +36,13 @@ class Swish(Activation):
 def swish(inputs, alpha = 0.0):
     return inputs * tf.math.sigmoid(inputs + alpha)
 
-class Swish10(Activation):
+class Swish06(Activation):
 
     def __init__(self, activation, **kwargs):
         super().__init__(activation, **kwargs)
-        self.__name__ = 'Swish10'
+        self.__name__ = 'Swish06'
 
-def swish10(inputs, alpha = 1.0):
+def swish06(inputs, alpha = 0.6):
     return inputs * tf.math.sigmoid(inputs + alpha)
 
 class Tanexp(Activation):
@@ -56,7 +56,7 @@ def tanexp(inputs):
 
 get_custom_objects().update({'Swish': Swish(swish)})
 get_custom_objects().update({'Tanexp': Tanexp(tanexp)})
-get_custom_objects().update({'Swish10': Swish10(swish10)})
+get_custom_objects().update({'Swish06': Swish06(swish06)})
 
 def compose(*funcs):
     """複数の層を結合する。
@@ -308,7 +308,7 @@ if __name__ == "__main__":
     VERBOSE = 1
     steps_per_epoch = x_train.shape[0] // BATCH_SIZE
     momentum = SGD(lr=0.1, decay=1e-4, momentum=0.9, nesterov=True)
-    activations = ['Swish10']
+    activations = ['Swish06']
     dataset = 'cifar10'
 
     for act in activations:
@@ -325,11 +325,11 @@ if __name__ == "__main__":
                             steps_per_epoch=steps_per_epoch,
                             validation_data=(x_valid, y_valid))
         
-        ResNetModel.save(f'./resnet/{dataset}_{act}_2.h5')
+        ResNetModel.save(f'./resnet/{dataset}_{act}.h5')
 
         acc = history.history['accuracy']
         val_acc = history.history['val_accuracy']
         loss = history.history['loss']
         val_loss = history.history['val_loss']
     
-        np.savetxt(f'./resnet/{dataset}_{act}_4.csv', [loss, acc, val_loss, val_acc])
+        np.savetxt(f'./resnet/{dataset}_{act}.csv', [loss, acc, val_loss, val_acc])
