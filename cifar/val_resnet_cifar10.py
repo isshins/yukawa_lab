@@ -36,12 +36,12 @@ class Swish(Activation):
 def swish(inputs, alpha = 0.0):
     return inputs * tf.math.sigmoid(inputs + alpha)
 
-class Swish08(Activation):
+class Swish05(Activation):
     def __init__(self, activation, **kwargs):
         super().__init__(activation, **kwargs)
-        self.__name__ = 'Swish08'
+        self.__name__ = 'Swish05'
 
-def swish08(inputs, alpha = 0.8):
+def swish05(inputs, alpha = 0.5):
     return inputs * tf.math.sigmoid(inputs + alpha)
 
 class Swish10(Activation):
@@ -73,7 +73,7 @@ def tanexp0611(inputs, alpha = 0.6, beta = 1.1):
 
 get_custom_objects().update({'Swish': Swish(swish)})
 get_custom_objects().update({'Swish10': Swish10(swish10)})
-get_custom_objects().update({'Swish08': Swish08(swish08)})
+get_custom_objects().update({'Swish05': Swish05(swish05)})
 get_custom_objects().update({'Tanexp': Tanexp(tanexp)})
 get_custom_objects().update({'Tanexp0611': Tanexp0611(tanexp0611)})
 
@@ -326,7 +326,7 @@ if __name__ == "__main__":
     VERBOSE = 1
     steps_per_epoch = x_train.shape[0] // BATCH_SIZE
     momentum = SGD(lr=0.1, decay=1e-4, momentum=0.9, nesterov=True)
-    act = 'Swish08'
+    act = 'Swish05'
     dataset = 'cifar10'
         
     kf = KFold(n_splits=5, shuffle=True, random_state=112)
