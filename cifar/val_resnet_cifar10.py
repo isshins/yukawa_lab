@@ -61,21 +61,11 @@ class Tanexp(Activation):
 def tanexp(inputs):
     return inputs * tf.math.tanh(tf.math.exp(inputs))
 
-class Tanexp0611(Activation):
-
-    def __init__(self, activation, **kwargs):
-        super().__init__(activation, **kwargs)
-        self.__name__ = 'Tanexp0611'
-
-def tanexp0611(inputs, alpha = 0.6, beta = 1.1):
-    return inputs * tf.math.tanh(tf.math.exp(inputs * beta + alpha))
-
 
 get_custom_objects().update({'Swish': Swish(swish)})
 get_custom_objects().update({'Swish10': Swish10(swish10)})
 get_custom_objects().update({'Swish05': Swish05(swish05)})
 get_custom_objects().update({'Tanexp': Tanexp(tanexp)})
-get_custom_objects().update({'Tanexp0611': Tanexp0611(tanexp0611)})
 
 def compose(*funcs):
     """複数の層を結合する。

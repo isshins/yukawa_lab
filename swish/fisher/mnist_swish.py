@@ -15,35 +15,24 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.model_selection import train_test_split
 
+dataset = 'mnist'
+act = 'Swish'
 
 ## Import Necessary Modules
 import tensorflow as tf
 from tensorflow.keras.layers import Activation
 from tensorflow.keras.utils import get_custom_objects
 
-class Myopinion(Activation):
-    '''
-    Mish Activation Function.
-    .. math::
-        mish(x) = x * tanh(softplus(x)) = x * tanh(ln(1 + e^{x}))
-    Shape:
-        - Input: Arbitrary. Use the keyword argument `input_shape`
-        (tuple of integers, does not include the samples axis)
-        when using this layer as the first layer in a model.
-        - Output: Same shape as the input.
-    Examples:
-        >>> X = Activation('Mish', name="conv1_act")(X_input)
-    '''
-
+class Swish(Activation):
     def __init__(self, activation, **kwargs):
-        super(Myopinion, self).__init__(activation, **kwargs)
-        self.__name__ = 'Myopinion'
+        super(Swish, self).__init__(activation, **kwargs)
+        self.__name__ = 'Swish'
 
 
-def myopinion(inputs):
-    return tf.keras.activations.relu(inputs) - 0.1
+def swish(inputs):
+    return inputs * tf.math.sigmoid(inputs)
 
-get_custom_objects().update({'Myopinion': Myopinion(myopinion)})
+get_custom_objects().update({'Swish': Swish(swish)})
 
 
 # mnistのデータ変換
@@ -103,8 +92,11 @@ def model_add_block(model, layers, activation):
 
 
 # モデルのコンパイル
-model = model_sequential("linear")
+model = model_sequential(act)
 model.summary()
+l1 = model.layers[0]
+print(type(l1.weights()))
+exit
 model.compile(optimizer='sgd', loss='categorical_crossentropy',
               metrics=['accuracy'])
 
@@ -123,7 +115,7 @@ history = model.fit(x_train, y_train,
                     validation_data=(x_valid, y_valid))
 
 # 学習済みモデルを保存
-#model.save('mnist_myopinion.h5')
+model.save(f'{dataset}_{act}.h5')
 
 # 学習経過をグラフで表示
 acc = history.history['accuracy']
@@ -144,66 +136,4 @@ plt.plot(epochs, val_loss, 'r', label='Val loss')
 plt.legend()
 plt.show()
 
-np.savetxt('./mnist_linear.csv', [loss, acc, val_loss, val_acc])
-#np.savetxt('./mnist_myopinion.csv', [loss, acc, val_loss, val_acc])
-
-# 評価
-#def key_sort_by_num(x):
-#    re_list = re.findall(r"[0-9]+", x)
-#    re_list = list(map(int, re_list))
-#    return re_list
-#
-#
-#def list_from_dir(dir, target_ext=None):
-#    data_list = []
-#    fnames = os.listdir(dir)
-#    fnames = sorted(fnames, key=key_sort_by_num)
-#    for fname in fnames:
-#        if target_ext is None:
-#            path = os.path.join(dir, fname)
-#            data_list.append(path)
-#        else:
-#            _, ext = os.path.splitext(fname)
-#            if ext.lower() in target_ext:
-#                path = os.path.join(dir, fname)
-#                data_list.append(path)
-#    return data_list
-#
-#
-#def latest_weight(log_dir):
-#    weight_paths = list_from_dir(log_dir, '.hdf5')
-#    return weight_paths[-1]
-#
-#
-#model = model_sequential()
-#
-#ckpt = latest_weight(log_dir)
-#model.load_weights(ckpt)
-#
-#model.compile(optimizer='sgd', loss='categorical_crossentropy',
-#              metrics=['accuracy'])
-#
-#score = model.evaluate(x_test,  y_test)
-#print(list(zip(model.metrics_names, score)))
-## [('loss', 0.03808286426122068), ('acc', 0.9879)]
-#
-#plt.figure(figsize=(10, 10))
-#
-#for i in range(10):
-#    data = [(x, t) for x, t in zip(_x_test, _y_test) if t == i]
-#    x, y = data[0]
-#
-#    pred = model.predict(preprocess(x, label=False))
-#
-#    ans = np.argmax(pred)
-#    score = np.max(pred) * 100
-#
-#    plt.subplot(5, 2, i+1)
-#    plt.axis("off")
-#    plt.title("ans={} score={}\n{}".format(ans, score, ans == y))
-#
-#    plt.imshow(x, cmap='gray')
-#
-#
-#plt.tight_layout()
-#plt.show()
+np.savetxt(f'./{act}_{dataset}.csv', [loss, acc, val_loss, val_acc])

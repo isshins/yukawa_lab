@@ -282,6 +282,9 @@ if __name__ == "__main__":
     x_train = preprocess(x_train)
     x_valid = preprocess(x_valid)
     x_test = preprocess(x_test)
+    print(x_train.shape)
+    print(x_valid.shape)
+    print(x_test.shape)
 
     y_train = preprocess(y_train, label=True)
     y_valid = preprocess(y_valid, label=True)
